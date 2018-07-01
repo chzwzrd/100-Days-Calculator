@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Date From Now</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: 'Montserrat';
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <h1>
+            Today is: <span class="today"></span>
+        </h1>
+    </header>
+
+    <main>
+        <form class="calculate-days-form">
+            <p>
+                Date in <input type="number" name="days" class="days" required="required"/> days: 
+                <span class="future-date"></span> 
+                <button class="future-btn" type="submit">Go</button>
+            </p>
+        </form>
+        <form class="birthday-form">
+            <p>
+                Enter birthday: <input type="date" name="birthday" class="birthday" required="required"/>
+                <button class="birthday-btn" type="submit">Go</button>
+            </p>
+            <p>
+                Time since birthday: <span class="birthday-days"></span>
+            </p>
+        </form>
+    </main>
+
+    <div>
+
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Moment CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- JavaScript -->
+    <script>
+        $(document).ready(() => {
+            const now = moment().format('MMMM D, YYYY');
+            const future = moment().add(100, 'days').format('MMMM D, YYYY');
+            $(".days").val(100);
+            $(".today").text(now);
+            $(".future-date").text(future);
+
+            $(".future-btn").on('click', (e) => {
+                e.preventDefault();
+                const days = $(".days").val();
+                console.log(days);
+                const newFuture = moment().add(days, 'days').format('MMMM D, YYYY');
+                $(".future-date").text(newFuture);
+            });
+
+            $(".birthday-btn").on('click', (e) => {
+                e.preventDefault();
+                const bday = moment($(".birthday").val());
+                console.log(bday, typeof bday);
+                const timeFromBday = moment().diff(bday, 'days');
+                $(".birthday-days").text(`${timeFromBday} days`);
+            });
+        });
+    </script>
+</body>
+</html>
