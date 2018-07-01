@@ -14,37 +14,45 @@
         body {
             font-family: 'Montserrat';
         }
+        .container {
+            width: 450px;
+            margin: auto;
+            margin-top: 15%;
+            padding-left: 40px;
+        }
     </style>
     
 </head>
 <body>
-    <header>
-        <h1>
-            Today is: <span class="today"></span>
-        </h1>
-    </header>
-
-    <main>
-        <form class="calculate-days-form">
-            <p>
-                Date in <input type="number" name="days" class="days" required="required"/> days: 
-                <span class="future-date"></span> 
-                <button class="future-btn" type="submit">Go</button>
-            </p>
-        </form>
-        <form class="birthday-form">
-            <p>
-                Enter birthday: <input type="date" name="birthday" class="birthday" required="required"/>
-                <button class="birthday-btn" type="submit">Go</button>
-            </p>
-            <p>
-                Time since birthday: <span class="birthday-days"></span>
-            </p>
-        </form>
-    </main>
-
-    <div>
-
+    <div class="container">
+        <header>
+            <h1>
+                Today is:
+                <span class="today"></span>
+            </h1>
+        </header>
+        
+        <main>
+            <form class="calculate-days-form">
+                <p>
+                    Date in
+                    <input type="number" name="days" class="days" required="required" /> days:
+                    <span class="future-date"></span>
+                    <button class="future-btn" type="submit">Go</button>
+                </p>
+            </form>
+            <form class="birthday-form">
+                <p>
+                    Enter birthday:
+                    <input type="date" name="birthday" class="birthday" required="required" />
+                    <button class="birthday-btn" type="submit">Go</button>
+                </p>
+                <p>
+                    Time since birthday:
+                    <span class="birthday-days"></span>
+                </p>
+            </form>
+        </main>
     </div>
 
     <!-- jQuery CDN -->
