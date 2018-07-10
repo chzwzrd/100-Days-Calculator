@@ -20,6 +20,13 @@
             margin-top: 15%;
             padding-left: 40px;
         }
+        .bday-message {
+            font-weight: bold;
+            font-style: italic;
+        }
+        .calculate-days-form {
+            font-weight: bold;
+        }
     </style>
     
 </head>
@@ -33,23 +40,25 @@
         </header>
         
         <main>
-            <form class="calculate-days-form">
-                <p>
-                    Date in
-                    <input type="number" name="days" class="days" required="required" /> days:
-                    <span class="future-date"></span>
-                    <button class="future-btn" type="submit">Go</button>
-                </p>
-            </form>
             <form class="birthday-form">
                 <p>
                     Enter birthday:
                     <input type="date" name="birthday" class="birthday" required="required" />
                     <button class="birthday-btn" type="submit">Go</button>
                 </p>
+                <!-- <p>Birthday: <span class="birthday-display">November 21, 1994</span></p> -->
                 <p>
                     Time since birthday:
                     <span class="birthday-days"></span>
+                </p>
+                <div class="bday-message"></div>
+            </form>
+
+            <form class="calculate-days-form">
+                <p>
+                    Date in <input type="number" name="days" class="days" required="required" /> days:
+                    <span class="future-date"></span>
+                    <button class="future-btn" type="submit">Go</button>
                 </p>
             </form>
         </main>
@@ -65,10 +74,15 @@
     <script>
         $(document).ready(() => {
             const now = moment().format('MMMM D, YYYY');
-            const future = moment().add(100, 'days').format('MMMM D, YYYY');
-            $(".days").val(100);
+            $(".birthday").val('1994-11-21');
+            const bday = moment($(".birthday").val());
+            const timeFromBday = moment().diff(bday, 'days');
+            const daysTill100 = 100 - (timeFromBday % 100);
+            const future = moment().add(daysTill100, 'days').format('MMMM D, YYYY');
+            $(".days").val(daysTill100);
             $(".today").text(now);
             $(".future-date").text(future);
+            $(".birthday-days").text(`${timeFromBday} days`);
 
             $(".future-btn").on('click', (e) => {
                 e.preventDefault();
@@ -81,10 +95,49 @@
             $(".birthday-btn").on('click', (e) => {
                 e.preventDefault();
                 const bday = moment($(".birthday").val());
-                console.log(bday, typeof bday);
-                const timeFromBday = moment().diff(bday, 'days');
-                $(".birthday-days").text(`${timeFromBday} days`);
+                console.log(bday, typeof bday); // string;
+
+                if (!bday._isValid) {
+                    alert('Please enter a valid birthday');
+                } else {
+                    const timeFromBday = moment().diff(bday, 'days');
+                    $(".birthday-days").text(`${timeFromBday} days`);
+
+                    const daysTill100 = 100 - (timeFromBday % 100);
+                    const future = moment().add(daysTill100, 'days').format('MMMM D, YYYY');
+                    $(".days").val(daysTill100);
+                    $(".future-date").text(future);
+                    
+                    // const bdayDisplay = bday.format('MMMM D, YYYY');
+                    // $(".birthday-display").text(bdayDisplay);
+
+                    $(".bday-message").empty();
+                    if (timeFromBday % 100 === 0) {
+                        const newMessage = "<p>Woohoo! You've lived another 100 days!</p>";
+                        $(".bday-message").append(newMessage);
+                    } else {
+                        const daysTill100 = 100 - (timeFromBday % 100);
+                        const daysLived = daysTill100 + timeFromBday;
+                        const dateOf100 = moment().add(daysTill100, 'days').format('MMMM D, YYYY');
+                        // const newMessage = `<p>${daysTill100} more days until 100!<br />You will have lived ${daysLived} days on ${dateOf100}.</p>`;
+                        const newMessage = `<p>In ${daysTill100} more days, you will be ${daysLived} days old.`;
+                        $(".bday-message").append(newMessage);
+                    }
+                }
             });
+
+            if (timeFromBday % 100 === 0) {
+                const newMessage = "<p>Woohoo! You've lived another 100 days!</p>";
+                newMessage.addClass("bday-message");
+                $(".bday-message").append(newMessage);
+            } else {
+                const daysTill100 = 100 - (timeFromBday % 100);
+                const daysLived = daysTill100 + timeFromBday;
+                const dateOf100 = moment().add(daysTill100, 'days').format('MMMM D, YYYY');
+                // const newMessage = `<p>${daysTill100} more days until 100!<br />You will have lived ${daysLived} days on ${dateOf100}.</p>`;
+                const newMessage = `<p>In ${daysTill100} more days, you will be ${daysLived} days old.`;
+                $(".bday-message").append(newMessage);
+            }
         });
     </script>
 </body>
